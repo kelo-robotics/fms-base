@@ -23,14 +23,14 @@ RUN apt update && \
     pip3 install pyinstaller && \
     pip3 install icalendar && \
     pip3 install wheel && \
-    pip3 install "poetry==$POETRY_VERSION" && \
+    pip3 install "poetry==$POETRY_VERSION"
 
     # Install python dependencies of related repositories
-    git clone --single-branch --branch develop https://github.com/kelo-robotics/ropod_common.git /opt/ropod_common && \
+RUN git clone --single-branch --branch develop https://github.com/kelo-robotics/ropod_common.git /opt/ropod_common && \
     cd /opt/ropod_common && \
-    pip3 install -r requirements.txt && pip3 install --user -e . && \
+    pip3 install -r requirements.txt && pip3 install --user -e .
 
-    git clone --single-branch --branch develop https://github.com/kelo-robotics/fmlib.git /opt/fmlib && \
+RUN git clone --single-branch --branch develop https://github.com/kelo-robotics/fmlib.git /opt/fmlib && \
     cd /opt/fmlib && \
     poetry config virtualenvs.create false && \
     poetry install && \
