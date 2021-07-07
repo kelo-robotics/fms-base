@@ -1,6 +1,5 @@
 FROM ubuntu:16.04
 
-ENV POETRY_VERSION=1.1.4
 ENV LANG C.UTF-8
 
 RUN apt update && \
@@ -8,8 +7,6 @@ RUN apt update && \
                    wget cmake figlet build-essential checkinstall \
                    gcc g++ gcc-multilib libstdc++-5-dev lib32stdc++-5-dev \
                    git libyaml-cpp-dev uuid-dev && \
-
-    # Install Python 3.6.9
     cd /usr/src && \
     apt install -y libreadline-gplv2-dev libncursesw5-dev libssl-dev \
                    libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev \
@@ -22,17 +19,11 @@ RUN apt update && \
     pip3 install --upgrade pip && \
     pip3 install pyinstaller && \
     pip3 install icalendar && \
-    pip3 install wheel && \
-    pip3 install "poetry==$POETRY_VERSION"
+    pip3 install wheel
 
     # Install python dependencies of related repositories
 RUN git clone --single-branch --branch develop https://github.com/kelo-robotics/ropod_common.git /opt/ropod_common && \
     cd /opt/ropod_common && \
     pip3 install -r requirements.txt && pip3 install --user -e .
 
-RUN git clone --single-branch --branch develop https://github.com/kelo-robotics/fmlib.git /opt/fmlib && \
-    cd /opt/fmlib && \
-    poetry config virtualenvs.create false && \
-    poetry install && \
-
-    sudo rm -rf /var/lib/apt/lists/*
+RUN    sudo rm -rf /var/lib/apt/lists/*
